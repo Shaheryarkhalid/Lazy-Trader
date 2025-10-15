@@ -18,9 +18,12 @@ class Config:
     def get_config(self):
         load_dotenv()
         self.AI_Article_Parser_API_Key = os.getenv("AI_Article_Parser_API_Key")
+        self.DB_Url = os.getenv("DB_Url")
         if (
             self.AI_Article_Parser_API_Key == None
             or self.AI_Article_Parser_API_Key == ""
+            or self.DB_Url == None
+            or self.DB_Url == ""
         ):
             raise Exception(
                 "Error: couldn't get AI_Article_Parser_API_Key. Please check environment variables."
