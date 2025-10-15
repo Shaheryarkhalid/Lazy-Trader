@@ -1,2 +1,8 @@
 ## Requirements
+feedparser
+beautifulsoup4
+google-genai
+python-dotenv
+
+
 
