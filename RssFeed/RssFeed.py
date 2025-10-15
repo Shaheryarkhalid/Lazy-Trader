@@ -1,4 +1,5 @@
 import feedparser
+import time
 import random
 from urllib import request
 from bs4 import BeautifulSoup
@@ -64,11 +65,31 @@ class RssFeed:
             return f"Error: Trying to parse article:\n{e}"
         return llm_resp.text
 
+    def __save_feed(self, title, source, url, description, published_at):
+        try:
+            db_con = self.config.DB_Connection
+            if db_con == None:
+                return "Error: Unable to get database connection."
+            cursor = db_con.cursor()
+            cursor.execute(
+                "insert into RSSFeed(Title, Url, Source, PublishDate, Summary) values(?, ?, ?, ?, ?)",
+                (title, url, source, published_at, description),
+            )
+            db_con.commit()
+        except Exception as e:
+            return f"Error: Trying to save feeds list to db:\n{e}"
+
     def get_feed(self):
         try:
             feed = feedparser.parse(self.url)
             for entry in feed.entries:
                 description = ""
+                try:
+                    description = (
+                        entry.description if entry.description else entry.summary
+                    )
+                except Exception as e:
+                    print("")
                 full_article = self.__get_full_article(entry.link)
                 if full_article.startswith("Error:"):
                     print(full_article)
@@ -87,6 +108,12 @@ class RssFeed:
                         "published_at": entry.published,
                     }
                 )
-                print(self.feed[-1])
+                err = self.__save_feed(
+                    entry.title, self.source, entry.link, description, entry.published
+                )
+                if err is not None:
+                    print(err)
+                print(f"Saved Article: {entry.title}")
+                time.sleep(5)
         except Exception as e:
             return f"Error: Trying to get feed:\n{e}"
