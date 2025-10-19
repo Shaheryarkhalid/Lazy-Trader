@@ -15,7 +15,9 @@ class TestNewsClient(unittest.TestCase):
         news_client = NewsClient(config)
         await news_client.run()
         self.assertNotEqual(news_client.connection, None)
+        self.assertNotEqual(news_client.is_authenticated, False)
+        self.assertNotEqual(news_client.is_subscribed, False)
         assert news_client.connection != None
-        while True:
-            data = await news_client.connection.recv()
-            print(data)
+        print("Closing Alpaca Stream Connection...")
+        await news_client.connection.close()
+        print("Connection closed.")
