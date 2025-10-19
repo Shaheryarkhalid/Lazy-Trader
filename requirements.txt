@@ -1,8 +1,8 @@
 ## Requirements
+python-dotenv
+google-genai
 feedparser
 beautifulsoup4
-google-genai
-python-dotenv
-
+alpaca-py
 
 
