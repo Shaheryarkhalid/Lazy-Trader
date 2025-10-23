@@ -2,12 +2,12 @@ class Trade:
     def __init__(self, config) -> None:
         self.config = config
         self.config.validate_config()
-        assert self.config != None
+        assert self.config is not None
 
     def save_trade_locally(
         self, symbol, price, position, profit_limt, stop_loss, date_time, reason
     ):
-        assert self.config.DB_Connection != None
+        assert self.config.DB_Connection is not None
         db_conn = self.config.DB_Connection
         cursor = db_conn.cursor()
 
@@ -23,7 +23,7 @@ class Trade:
             return f"Error: Trying to save Trade in db. \n{e}"
 
     def get_trades_from_db(self, symbol):
-        assert self.config.DB_Connection != None
+        assert self.config.DB_Connection is not None
         db_conn = self.config.DB_Connection
         cursor = db_conn.cursor()
 

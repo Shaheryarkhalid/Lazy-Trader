@@ -18,10 +18,10 @@ class TradeClient:
 
         self.client = None
         self.__initialize()
-        assert self.client != None
+        assert self.client is not None
 
     def make_trade(self, symbol, qty, side, profit, stop_loss):
-        assert self.client != None
+        assert self.client is not None
         try:
             order_request = MarketOrderRequest(
                 symbol=symbol,
@@ -38,7 +38,7 @@ class TradeClient:
             return f"Error: Trying to make a trade.\n{e}"
 
     def get_all_assets(self):
-        assert self.client != None
+        assert self.client is not None
         request = GetAssetsRequest(asset_class=AssetClass.US_EQUITY)
         try:
             assets = self.client.get_all_assets(request)
@@ -48,7 +48,7 @@ class TradeClient:
         return assets
 
     def get_active_trades(self):
-        assert self.client != None
+        assert self.client is not None
         try:
             activity = self.client.get_orders()
             return activity
@@ -56,7 +56,7 @@ class TradeClient:
             return f"Error: Trying to get trade activity:\n{e}"
 
     def get_active_trades_for_asset(self, symbol):
-        assert self.client != None
+        assert self.client is not None
         try:
             request = GetOrdersRequest(symbols=[symbol])
             activity = self.client.get_orders(request)

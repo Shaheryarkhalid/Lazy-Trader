@@ -15,10 +15,10 @@ class MarketDataClient:
 
         self.client = None
         self.__initialize()
-        assert self.client != None
+        assert self.client is not None
 
     def get_asset_history_week(self, asset_symbol):
-        assert self.client != None
+        assert self.client is not None
         end = datetime.now()
         start = end - timedelta(days=7)
         try:

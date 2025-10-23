@@ -18,15 +18,15 @@ class Config:
         self.__get_db_connection()
 
     def validate_config(self):
-        assert self.Context_AI_API_Key != None
+        assert self.Context_AI_API_Key is not None
         assert self.Context_AI_API_Key != ""
-        assert self.DB_Url != None
+        assert self.DB_Url is not None
         assert self.DB_Url != ""
-        assert self.Alpaca_API_Key_ID != None
+        assert self.Alpaca_API_Key_ID is not None
         assert self.Alpaca_API_Key_ID != ""
-        assert self.Alpaca_API_Key_Secret != None
+        assert self.Alpaca_API_Key_Secret is not None
         assert self.Alpaca_API_Key_Secret != ""
-        assert self.Alpaca_Stream_Url != None
+        assert self.Alpaca_Stream_Url is not None
         assert self.Alpaca_Stream_Url != ""
 
     def __exit__(self):
@@ -42,7 +42,7 @@ class Config:
         self.Alpaca_Stream_Url = os.getenv("Alpaca_Stream_Url")
 
     def __get_db_connection(self):
-        assert self.DB_Url != None
+        assert self.DB_Url is not None
         con = sqlite3.connect(self.DB_Url)
-        assert con != None
+        assert con is not None
         self.DB_Connection = con

@@ -20,9 +20,9 @@ class NewsClient:
         self.__validate_instance()
 
     def __validate_instance(self):
-        assert self.connection != None
-        assert self.is_authenticated != False
-        assert self.is_subscribed != False
+        assert self.connection is not None
+        assert self.is_authenticated is not False
+        assert self.is_subscribed is not False
 
     async def __connect_alpaca(self):
         try:
@@ -48,7 +48,7 @@ class NewsClient:
 
     async def __authenticate_alpaca(self):
         try:
-            assert self.connection != None
+            assert self.connection is not None
             print("Authenticating Alpaca News Client...")
             auth_msg = {
                 "action": "auth",
@@ -74,7 +74,7 @@ class NewsClient:
         except Exception as e:
             print("Unable to Authenticate.")
             print(e)
-            assert self.connection != None
+            assert self.connection is not None
             await self.connection.close()
             self.connection = None
             self.is_authenticated = False
@@ -82,8 +82,8 @@ class NewsClient:
 
     async def __subscribe_alpaca_news(self):
         try:
-            assert self.connection != None
-            assert self.is_authenticated == True
+            assert self.connection is not None
+            assert self.is_authenticated is True
             print("Subscribing to Alpaca News Client...")
             sub_msg = {"action": "subscribe", "news": ["*"]}
             await self.connection.send(json.dumps(sub_msg))
@@ -95,7 +95,7 @@ class NewsClient:
                 return
             else:
                 print(f"Unable to subscribe to alpaca news. {data}")
-                assert self.connection != None
+                assert self.connection is not None
                 await self.connection.close()
                 self.connection = None
                 self.is_authenticated = False
@@ -103,7 +103,7 @@ class NewsClient:
         except Exception as e:
             print("Unable to subscribe to alpaca news.")
             print(e)
-            assert self.connection != None
+            assert self.connection is not None
             await self.connection.close()
             self.connection = None
             self.is_authenticated = False
