@@ -1,5 +1,4 @@
 import asyncio
-import json
 import unittest
 from internals.config import Config
 from Alpaca.NewsClient import NewsClient

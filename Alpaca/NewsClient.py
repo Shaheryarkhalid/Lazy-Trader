@@ -1,30 +1,23 @@
 import websockets
 import json
 
+from helpers import Singleton
 
+
+@Singleton
 class NewsClient:
     def __init__(self, config) -> None:
         self.config = config
         self.connection = None
         self.is_authenticated = False
         self.is_subscribed = False
-        self.__validate_config()
+        self.config.validate_config()
 
     async def run(self):
         await self.__connect_alpaca()
         await self.__authenticate_alpaca()
         await self.__subscribe_alpaca_news()
         self.__validate_instance()
-
-    def __validate_config(self):
-        assert self.config != None
-        assert self.config != None
-        assert self.config.Alpaca_API_Key_ID != None
-        assert self.config.Alpaca_API_Key_ID != ""
-        assert self.config.Alpaca_API_Key_Secret != None
-        assert self.config.Alpaca_API_Key_Secret != ""
-        assert self.config.Alpaca_Stream_Url != None
-        assert self.config.Alpaca_Stream_Url != ""
 
     def __validate_instance(self):
         assert self.connection != None
@@ -56,7 +49,7 @@ class NewsClient:
     async def __authenticate_alpaca(self):
         try:
             assert self.connection != None
-            print("Authenticating Alpaca Client...")
+            print("Authenticating Alpaca News Client...")
             auth_msg = {
                 "action": "auth",
                 "key": self.config.Alpaca_API_Key_ID,

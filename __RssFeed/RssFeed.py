@@ -1,5 +1,5 @@
 import feedparser
-import time
+import timerssf
 import random
 from urllib import request
 from bs4 import BeautifulSoup
