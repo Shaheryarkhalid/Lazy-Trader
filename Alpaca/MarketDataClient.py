@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest
+from alpaca.data.requests import StockBarsRequest, StockLatestTradeRequest
 from alpaca.data.timeframe import TimeFrame
+
 
 from helpers import Singleton
 
@@ -16,6 +17,16 @@ class MarketDataClient:
         self.client = None
         self.__initialize()
         assert self.client is not None
+
+    def get_asset_price(self, symbol):
+        assert self.client is not None
+        try:
+            trade_request = StockLatestTradeRequest(symbol_or_symbols=symbol)
+            latest_trade = self.client.get_stock_latest_trade(trade_request)
+            trade_data = latest_trade[symbol]
+            return trade_data.price
+        except Exception as e:
+            return f"{e}"
 
     def get_asset_history_week(self, asset_symbol):
         assert self.client is not None
