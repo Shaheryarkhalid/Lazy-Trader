@@ -6,7 +6,7 @@ import unittest
 from alpaca.trading.enums import OrderSide
 
 from functions.Trade import Trade
-from internals.config import Config
+from internals.Config import Config
 
 
 class TestTrade(unittest.TestCase):

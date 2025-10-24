@@ -1,6 +1,6 @@
 import asyncio
 import unittest
-from internals.config import Config
+from internals.Config import Config
 from Alpaca.NewsClient import NewsClient
 
 
@@ -12,11 +12,10 @@ class TestNewsClient(unittest.TestCase):
 
     async def __run_news_client(self, config):
         news_client = NewsClient(config)
-        await news_client.run()
-        self.assertNotEqual(news_client.connection, None)
-        self.assertNotEqual(news_client.is_authenticated, False)
-        self.assertNotEqual(news_client.is_subscribed, False)
-        assert news_client.connection != None
-        print("Closing Alpaca Stream Connection...")
-        await news_client.connection.close()
-        print("Connection closed.")
+        try:
+            await news_client.run()
+            self.assertNotEqual(news_client.connection, None)
+            self.assertNotEqual(news_client.is_authenticated, False)
+            self.assertNotEqual(news_client.is_subscribed, False)
+        finally:
+            await news_client.close()

@@ -1,7 +1,6 @@
 import unittest
-import asyncio
-from internals.config import Config
-from Alpaca.AlpacaClient import AlpacaClient
+from internals.Config import Config
+# from Alpaca.AlpacaClient import AlpacaClient
 
 
 class TestAlpacaClient(unittest.TestCase):

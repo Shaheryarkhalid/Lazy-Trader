@@ -1,6 +1,6 @@
 import unittest
 from AI.Context import Context
-from internals.config import Config
+from internals.Config import Config
 
 
 class TestContext(unittest.TestCase):

@@ -19,6 +19,20 @@ class NewsClient:
         await self.__subscribe_alpaca_news()
         self.__validate_instance()
 
+    async def __exit__(self):
+        await self.close()
+
+    async def close(self):
+        try:
+            if self.connection:
+                if hasattr(self.connection, "close"):
+                    print("Closing Alpaca News Stream...")
+                    await self.connection.close()
+                    if self.connection.close_code:
+                        print("Alpaca News Stream Closed Successfully.")
+        except Exception as e:
+            print(e)
+
     def __validate_instance(self):
         assert self.connection is not None
         assert self.is_authenticated is not False

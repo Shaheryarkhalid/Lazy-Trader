@@ -29,9 +29,18 @@ class Config:
         assert self.Alpaca_Stream_Url is not None
         assert self.Alpaca_Stream_Url != ""
 
+    def __del__(self):
+        self.__clean_up()
+
     def __exit__(self):
+        self.__clean_up()
+
+    def __clean_up(self):
+        print("Closing Database Connection...")
         if self.DB_Connection is not None:
             self.DB_Connection.close()
+            self.DB_Connection = None
+        print("Database Connection Closed Successsfully.")
 
     def __get_config(self):
         load_dotenv()
@@ -42,7 +51,9 @@ class Config:
         self.Alpaca_Stream_Url = os.getenv("Alpaca_Stream_Url")
 
     def __get_db_connection(self):
+        print("Opening Database Connection...")
         assert self.DB_Url is not None
         con = sqlite3.connect(self.DB_Url)
         assert con is not None
         self.DB_Connection = con
+        print("Database Connection Opened Successsfull.")

@@ -1,7 +1,7 @@
 import unittest
 
 from Alpaca.MarketDataClient import MarketDataClient
-from internals.config import Config
+from internals.Config import Config
 
 
 class TestMarketDataClient(unittest.TestCase):

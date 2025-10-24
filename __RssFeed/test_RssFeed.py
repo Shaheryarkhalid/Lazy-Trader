@@ -1,7 +1,7 @@
 import unittest
 import sqlite3
 from RssFeed import RssFeed
-from internals.config import Config
+from internals.Config import Config
 
 
 class TestRssFeed(unittest.TestCase):

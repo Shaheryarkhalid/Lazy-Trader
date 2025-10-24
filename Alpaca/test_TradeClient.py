@@ -1,7 +1,7 @@
 import unittest
 
 from alpaca.trading.enums import OrderSide
-from internals.config import Config
+from internals.Config import Config
 from Alpaca.TradeClient import TradeClient
 
 
