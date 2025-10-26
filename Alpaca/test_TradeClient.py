@@ -1,6 +1,7 @@
 import unittest
 
 from alpaca.trading.enums import OrderSide
+from functions.Trade import Trade
 from internals.Config import Config
 from Alpaca.TradeClient import TradeClient
 
@@ -26,7 +27,20 @@ class TestTradeClient(unittest.TestCase):
             200,
             300,
         )
-        self.assertFalse(msg.startswith("Error:"))
+        self.assertFalse(isinstance(msg, str))
+        trade_db = Trade()
+        assert not isinstance(msg, str)
+        print(msg.id)
+        err = trade_db.save_trade_locally(
+            str(msg.id),
+            symbol="AAPL",
+            price=250,
+            position="SELL",
+            profit_limt=200,
+            stop_loss=300,
+            reason="XYz",
+        )
+        print(err)
 
     def test_get_active_trades(self):
         active_trades = self.trade_client.get_active_trades()
@@ -39,3 +53,4 @@ class TestTradeClient(unittest.TestCase):
         self.assertIsInstance(active_trades, list)
         self.assertNotIsInstance(active_trades, str)
         print(f"Account: Total Active Trades for 'APPL': {len(active_trades)}")
+        print(print(active_trades))

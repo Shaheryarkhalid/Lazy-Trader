@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-import json
 import unittest
 
 
@@ -13,11 +12,12 @@ class TestTrade(unittest.TestCase):
     def __init__(self, methodName: str = "runTest") -> None:
         super().__init__(methodName)
         self.config = Config()
-        self.trade = Trade(self.config)
+        self.trade = Trade()
 
     def test_save_trade_locally(self):
 
         msg = self.trade.save_trade_locally(
+            "abc-test-id",
             "APPL",
             250,
             OrderSide.SELL,

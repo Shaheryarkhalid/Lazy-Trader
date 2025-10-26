@@ -1,13 +1,14 @@
 from google import genai
 from Constants import CONTEXT_AI_SYSTEM_PROMPT
 from helpers import Singleton
+from internals.Config import Config
 
 
 @Singleton
 class Context:
 
-    def __init__(self, config) -> None:
-        self.config = config
+    def __init__(self) -> None:
+        self.config = Config()
         self.config.validate_config()
         self.ChatClient = None
         self.__initialize_chat_client()

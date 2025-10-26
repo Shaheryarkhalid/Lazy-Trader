@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest, StockLatestTradeRequest
 from alpaca.data.timeframe import TimeFrame
+from internals.Config import Config
 
 
 from helpers import Singleton
@@ -10,8 +11,8 @@ from helpers import Singleton
 @Singleton
 class MarketDataClient:
 
-    def __init__(self, config) -> None:
-        self.config = config
+    def __init__(self) -> None:
+        self.config = Config()
         self.config.validate_config()
 
         self.client = None

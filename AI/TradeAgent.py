@@ -1,17 +1,26 @@
-from typing import Type
 from google import genai
 from google.genai import types
+from Alpaca.TradeClient import TradeClient
+from Alpaca.MarketDataClient import MarketDataClient
+from functions.Trade import Trade
 from helpers import Singleton
 from Constants import TRADE_AI_SYSTEM_PROMPT
+
+from AI.Context import Context
 
 
 @Singleton
 class TradeAgent:
 
     def __init__(self, config) -> None:
-        self.config = config
-        self.config.validate_config()
-        assert self.config is not None
+        self.Config = config
+        self.Config.validate_config()
+        assert self.Config is not None
+
+        self.Context = Context()
+        self.TradeClient = TradeClient()
+        self.MarketDataClient = MarketDataClient()
+        self.TradeDBClient = Trade()
 
         self.ChatClient = None
         self.__initialize()
@@ -26,12 +35,19 @@ class TradeAgent:
             system_instruction=TRADE_AI_SYSTEM_PROMPT, tools=[self.available_functions]
         )
 
-    def run(self):
+    def run(self, article):
+        # TRADE_AI_SYSTEM_PROMPT_REMINDER
+        messages = [
+            types.Content(
+                role="user",
+                parts=types.Part.from_text(text=article),
+            )
+        ]
         try:
             assert self.ChatClient is not None
             resp = self.ChatClient.models.generate_content(
                 model="gemini-2.0-flash",
-                contents=genai.types.Part.from_text(text="Hi, How are you."),
+                contents=messages,
             )
             return resp.text
         except Exception as e:
@@ -148,6 +164,10 @@ class TradeAgent:
             parameters=types.Schema(
                 type=types.Type.OBJECT,
                 properties={
+                    "trade_id": types.Schema(
+                        type=types.Type.STRING,
+                        description="id of the trade.",
+                    ),
                     "symbol": types.Schema(
                         type=types.Type.STRING,
                         description="symbol of the asset for which trade will be placed.",
@@ -188,3 +208,15 @@ class TradeAgent:
             ]
         )
         return available_functions
+
+    def __call_function(self, function_call_part):
+        functions = {
+            "get_context": self.Context.get_context,
+            "get_available_assets": self.TradeClient.get_all_assets,
+            "get_asset_price": self.MarketDataClient.get_asset_price,
+            "get_asset_history_week": self.MarketDataClient.get_asset_history_week,
+            "get_older_bets": self.TradeClient.get_active_trades_for_asset,
+            "make_trade": self.TradeClient.make_trade,
+            "save_trade_locally": self.TradeDBClient.save_trade_locally,
+        }
+        pass

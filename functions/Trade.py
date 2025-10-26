@@ -1,20 +1,43 @@
+from datetime import datetime, timezone
+from internals.Config import Config
+from helpers import Singleton
+
+
+@Singleton
 class Trade:
-    def __init__(self, config) -> None:
-        self.config = config
+    def __init__(self) -> None:
+        self.config = Config()
         self.config.validate_config()
         assert self.config is not None
 
     def save_trade_locally(
-        self, symbol, price, position, profit_limt, stop_loss, date_time, reason
+        self,
+        trade_id,
+        symbol,
+        price,
+        position,
+        profit_limt,
+        stop_loss,
+        reason,
     ):
+        date_time = datetime.now(timezone.utc).isoformat()
         assert self.config.DB_Connection is not None
         db_conn = self.config.DB_Connection
         cursor = db_conn.cursor()
 
         try:
             cursor.execute(
-                "insert  into Trades(symbol, price, position, profit_limit,  stop_loss , date_time , reason ) values(?, ?, ?, ?, ?, ?, ?)",
-                (symbol, price, position, profit_limt, stop_loss, date_time, reason),
+                "insert  into Trades(trade_id, symbol, price, position, profit_limit,  stop_loss , date_time , reason ) values(?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    trade_id,
+                    symbol,
+                    price,
+                    position,
+                    profit_limt,
+                    stop_loss,
+                    date_time,
+                    reason,
+                ),
             )
             db_conn.commit()
             return "Successfully saved trade in db."
@@ -29,7 +52,7 @@ class Trade:
 
         try:
             cursor.execute(
-                "select symbol, price, position, profit_limit, stop_loss, date_time, reason from Trades where symbol = ?",
+                "select  symbol, price, position, profit_limit, stop_loss, date_time, reason, trade_id from Trades where symbol = ?",
                 (symbol,),
             )
             trades = cursor.fetchall()
@@ -43,6 +66,7 @@ class Trade:
                 m_trade["stop_loss"] = trade[4]
                 m_trade["date_time"] = trade[5]
                 m_trade["reason"] = trade[6]
+                m_trade["trade_id"] = trade[7]
                 mapped_trades.append(m_trade)
             return mapped_trades
 

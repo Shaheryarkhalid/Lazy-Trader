@@ -2,23 +2,26 @@ from alpaca.trading.client import TradingClient
 from alpaca.trading.enums import AssetClass, OrderClass, TimeInForce
 from alpaca.trading.requests import (
     GetAssetsRequest,
-    GetOrdersRequest,
     MarketOrderRequest,
 )
 
+from functions.Trade import Trade
 from helpers import Singleton
+from internals.Config import Config
 
 
 @Singleton
 class TradeClient:
 
-    def __init__(self, config) -> None:
-        self.config = config
+    def __init__(self) -> None:
+        self.config = Config()
         self.config.validate_config()
 
         self.client = None
         self.__initialize()
         assert self.client is not None
+
+        self.trade_db_client = Trade()
 
     def make_trade(self, symbol, qty, side, profit, stop_loss):
         assert self.client is not None
@@ -33,7 +36,7 @@ class TradeClient:
                 stop_loss={"stop_price": stop_loss},
             )
             order = self.client.submit_order(order_request)
-            return f"Successfully Placed bet for AAPL. {order}"
+            return order
         except Exception as e:
             return f"Error: Trying to make a trade.\n{e}"
 
@@ -57,12 +60,22 @@ class TradeClient:
 
     def get_active_trades_for_asset(self, symbol):
         assert self.client is not None
-        try:
-            request = GetOrdersRequest(symbols=[symbol])
-            activity = self.client.get_orders(request)
-            return activity
-        except Exception as e:
-            return f"Error: Trying to get trade activity:\n{e}"
+        active_trades = self.trade_db_client.get_trades_from_db(symbol)
+        if isinstance(active_trades, str) and active_trades.startswith("Error:"):
+            return active_trades
+        elif len(active_trades) < 1:
+            return f"No active trades found for asset: {symbol}"
+        else:
+            try:
+                for index, a_trade in enumerate(active_trades):
+                    activity = self.client.get_order_by_id(a_trade["trade_id"])
+                    active_trades[index]["status"] = activity.status
+                    active_trades[index]["closed_at"] = activity.filled_avg_price
+
+            except Exception as e:
+                print(f"Exception: {e}")
+                return f"Error: Trying to get trade activity:\n{e}"
+            return active_trades
 
     def __initialize(self):
         print("Initializing Trading Client...")
