@@ -2,4 +2,4 @@ __pycache__/
 .env
 venv
 junk
-count.sh
+./count.sh
