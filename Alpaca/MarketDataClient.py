@@ -19,23 +19,34 @@ class MarketDataClient:
         self.__initialize()
         assert self.client is not None
 
-    def get_asset_price(self, symbol):
+    def get_asset_price(self, symbol=""):
+        print(f"Getting Price for '{symbol}'")
         assert self.client is not None
         try:
             trade_request = StockLatestTradeRequest(symbol_or_symbols=symbol)
             latest_trade = self.client.get_stock_latest_trade(trade_request)
-            trade_data = latest_trade[symbol]
-            return trade_data.price
+            if latest_trade == {}:
+                print(f"No price data found for '{symbol}'.")
+                return f"No price data found for '{symbol}'. Please try another asset."
+            else:
+                try:
+                    price = latest_trade[symbol].price
+                    print(f"Price for '{symbol}': {price}")
+                    return price
+                except Exception as e:
+                    print(f"Exception: {e}")
+                    print(latest_trade)
+                    return latest_trade
         except Exception as e:
-            return f"{e}"
+            return f"Error: Getting the price for given asset. {e}"
 
-    def get_asset_history_week(self, asset_symbol):
+    def get_asset_history_week(self, symbol):
         assert self.client is not None
         end = datetime.now()
         start = end - timedelta(days=7)
         try:
             request = StockBarsRequest(
-                symbol_or_symbols=asset_symbol,
+                symbol_or_symbols=symbol,
                 timeframe=TimeFrame.Hour,
                 start=start,
                 end=end,

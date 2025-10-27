@@ -1,5 +1,5 @@
 from alpaca.trading.client import TradingClient
-from alpaca.trading.enums import AssetClass, OrderClass, TimeInForce
+from alpaca.trading.enums import AssetClass, OrderClass, OrderSide, TimeInForce
 from alpaca.trading.requests import (
     GetAssetsRequest,
     MarketOrderRequest,
@@ -24,7 +24,17 @@ class TradeClient:
         self.trade_db_client = Trade()
 
     def make_trade(self, symbol, qty, side, profit, stop_loss):
+        try:
+            qty = int(qty)
+            profit = int(profit)
+            stop_loss = int(stop_loss)
+        except Exception as e:
+            return str(e)
         assert self.client is not None
+        if side.lower() == "buy":
+            side = OrderSide.BUY
+        else:
+            side = OrderSide.SELL
         try:
             order_request = MarketOrderRequest(
                 symbol=symbol,
@@ -36,6 +46,9 @@ class TradeClient:
                 stop_loss={"stop_price": stop_loss},
             )
             order = self.client.submit_order(order_request)
+            print(
+                f"Successfully Placed Trade For '{symbol}' Of Quantity {qty}, Position {side}, Profit Limit {profit}, Stop Loss {stop_loss}"
+            )
             return order
         except Exception as e:
             return f"Error: Trying to make a trade.\n{e}"
@@ -46,6 +59,7 @@ class TradeClient:
         try:
             assets = self.client.get_all_assets(request)
             assets = [{"name": asset.name, "symbol": asset.symbol} for asset in assets]
+            print(f"Total Available Assets: {len(assets)}")
         except Exception as e:
             return f"Error: unable to get assets:\n{e}"
         return assets
@@ -64,6 +78,7 @@ class TradeClient:
         if isinstance(active_trades, str) and active_trades.startswith("Error:"):
             return active_trades
         elif len(active_trades) < 1:
+            print(f"No active trades found for asset: {symbol}")
             return f"No active trades found for asset: {symbol}"
         else:
             try:
@@ -75,6 +90,7 @@ class TradeClient:
             except Exception as e:
                 print(f"Exception: {e}")
                 return f"Error: Trying to get trade activity:\n{e}"
+            print(f"Total Active Trades for '{symbol}': {len(active_trades)}")
             return active_trades
 
     def __initialize(self):

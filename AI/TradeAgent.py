@@ -4,16 +4,17 @@ from Alpaca.TradeClient import TradeClient
 from Alpaca.MarketDataClient import MarketDataClient
 from functions.Trade import Trade
 from helpers import Singleton
-from Constants import TRADE_AI_SYSTEM_PROMPT
+from Constants import TRADE_AI_SYSTEM_PROMPT, TRADE_AI_SYSTEM_PROMPT_REMINDER
 
 from AI.Context import Context
+from internals.Config import Config
 
 
 @Singleton
 class TradeAgent:
 
-    def __init__(self, config) -> None:
-        self.Config = config
+    def __init__(self) -> None:
+        self.Config = Config()
         self.Config.validate_config()
         assert self.Config is not None
 
@@ -36,27 +37,78 @@ class TradeAgent:
         )
 
     def run(self, article):
-        # TRADE_AI_SYSTEM_PROMPT_REMINDER
         messages = [
             types.Content(
                 role="user",
-                parts=types.Part.from_text(text=article),
+                parts=[types.Part.from_text(text=article)],
             )
         ]
+        assert self.ChatClient is not None
         try:
-            assert self.ChatClient is not None
-            resp = self.ChatClient.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=messages,
-            )
-            return resp.text
+            if len(messages) >= 5:
+                messages = [messages[0], messages[-2], messages[-1]]
+            while True:
+                resp = self.ChatClient.models.generate_content(
+                    model="gemini-2.0-flash",
+                    contents=messages,
+                    config=self.trade_agent_config,
+                )
+                if not resp.candidates:
+                    print("Task has been finished.")
+                    return
+                candidate = resp.candidates[0]
+                part = candidate.content.parts[0]
+                messages += [types.ModelContent(parts=candidate.content.parts)]
+
+                text = part.text if hasattr(part, "text") else None
+                function_call = (
+                    part.function_call if hasattr(part, "function_call") else None
+                )
+
+                if not text and not function_call:
+                    print("Task has been finished.")
+                    return
+
+                if text:
+                    messages += [
+                        types.UserContent(
+                            parts=types.Part.from_text(
+                                text=TRADE_AI_SYSTEM_PROMPT_REMINDER
+                            )
+                        )
+                    ]
+                    continue
+                if function_call:
+                    try:
+                        function_call_response = self.__call_function(function_call)
+                        messages += [
+                            types.UserContent(
+                                parts=[
+                                    types.Part.from_text(text=function_call_response)
+                                ]
+                            )
+                        ]
+                    except Exception as e:
+                        print(f"Error while trying to call function: \n{e}")
+                        messages += [
+                            types.Content(
+                                role="Tool",
+                                parts=[
+                                    types.Part.from_function_response(
+                                        name=function_call.name,
+                                        response={"error": e},
+                                    )
+                                ],
+                            )
+                        ]
+
         except Exception as e:
             return f"Error: Trying to get response from Trade Agent Chat Client.\n{e}"
 
     def __initialize(self):
         print("Initializing Trade Agent Chat Client...")
         try:
-            chat_client = genai.Client(api_key=self.config.Trade_AI_API_Key)
+            chat_client = genai.Client(api_key=self.Config.Trade_AI_API_Key)
             models = chat_client.models.list()
             if len(models) < 1:
                 print(
@@ -95,7 +147,7 @@ class TradeAgent:
                 properties={
                     "symbol": types.Schema(
                         type=types.Type.STRING,
-                        description="symbol of the asset for which price will be returned. You will get this symbol from get_available_assets function.",
+                        description="symbol of the asset for which price will be returned.",
                     )
                 },
             ),
@@ -219,4 +271,23 @@ class TradeAgent:
             "make_trade": self.TradeClient.make_trade,
             "save_trade_locally": self.TradeDBClient.save_trade_locally,
         }
-        pass
+        if not functions[function_call_part.name]:
+            return types.Content(
+                role="Tool",
+                parts=[
+                    types.Part.from_function_response(
+                        name=function_call_part.name,
+                        response={
+                            "error": f"Unknown function: {function_call_part.name}"
+                        },
+                    )
+                ],
+            )
+        print(
+            f"Calling function: {function_call_part.name} Args : f{function_call_part.args}"
+        )
+        try:
+            resp = functions[function_call_part.name](**function_call_part.args)
+            return f"{resp}"
+        except Exception as e:
+            return f"Error: {e}"

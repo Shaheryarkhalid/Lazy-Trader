@@ -69,6 +69,7 @@ Workflow:
     you will get all available assets using functions.
     you will determine which asset you want to trade or do not want to trade up to you(you can also choose not to trade totally up to you).
     once you choose and asset you will get it's past week performance.
+    then you will look for older bets with this symbol that will give you also the reason why you placed those trades in the first place and what were the results(if no trades are returned it's not a bad thing just move on to next step with chosen asset this just means you haven't placed any bets for this asset yet. this would be your first one.)
     then you will get it's current price using functions.
     then you will place trade for that asset.
     then you will save that trade locally alongside with your reason why you made that trade what was the reason a short paragraph.

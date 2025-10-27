@@ -10,7 +10,7 @@ class TestTradeClient(unittest.TestCase):
     def __init__(self, methodName: str = "runTest") -> None:
         super().__init__(methodName)
         self.config = Config()
-        self.trade_client = TradeClient(self.config)
+        self.trade_client = TradeClient()
 
     def test_get_all_assets(self):
         assets = self.trade_client.get_all_assets()

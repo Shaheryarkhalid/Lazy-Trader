@@ -16,7 +16,7 @@ class Trade:
         symbol,
         price,
         position,
-        profit_limt,
+        profit_limit,
         stop_loss,
         reason,
     ):
@@ -33,16 +33,18 @@ class Trade:
                     symbol,
                     price,
                     position,
-                    profit_limt,
+                    profit_limit,
                     stop_loss,
                     date_time,
                     reason,
                 ),
             )
             db_conn.commit()
+            print("Successfully saved trade in db.")
             return "Successfully saved trade in db."
 
         except Exception as e:
+            print(f"Error: Trying to save Trade in db. \n{e}")
             return f"Error: Trying to save Trade in db. \n{e}"
 
     def get_trades_from_db(self, symbol):
@@ -68,6 +70,10 @@ class Trade:
                 m_trade["reason"] = trade[6]
                 m_trade["trade_id"] = trade[7]
                 mapped_trades.append(m_trade)
+            if len(mapped_trades) < 1:
+                print(f"No Trades found for '{symbol}'")
+                return f"No Trades found for '{symbol}'"
+            print(f"Total Trades For '{symbol}': {len(mapped_trades)}")
             return mapped_trades
 
         except Exception as e:
