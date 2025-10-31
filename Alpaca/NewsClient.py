@@ -1,13 +1,16 @@
+from colorama import Fore
+from google.genai.types import FinishReason
 import websockets
 import json
 
 from helpers import Singleton
+from internals.Config import Config
 
 
 @Singleton
 class NewsClient:
-    def __init__(self, config) -> None:
-        self.config = config
+    def __init__(self) -> None:
+        self.config = Config()
         self.connection = None
         self.is_authenticated = False
         self.is_subscribed = False
@@ -26,12 +29,12 @@ class NewsClient:
         try:
             if self.connection:
                 if hasattr(self.connection, "close"):
-                    print("Closing Alpaca News Stream...")
+                    print(Fore.LIGHTWHITE_EX + "⏳ Closing Alpaca News Stream...")
                     await self.connection.close()
                     if self.connection.close_code:
-                        print("Alpaca News Stream Closed Successfully.")
+                        print(Fore.GREEN + "🟢 Alpaca News Stream Closed Successfully.")
         except Exception as e:
-            print(e)
+            print(Fore.RED + f"🔴 {e}")
 
     def __validate_instance(self):
         assert self.connection is not None
@@ -40,30 +43,33 @@ class NewsClient:
 
     async def __connect_alpaca(self):
         try:
-            print("Connecting to Alpaca News Stream...")
+            print(Fore.LIGHTWHITE_EX + "⏳ Connecting to Alpaca News Stream...")
+            assert self.config.Alpaca_Stream_Url is not None
             alpaca_connection = await websockets.connect(self.config.Alpaca_Stream_Url)
             data = await alpaca_connection.recv()
             events = json.loads(data)
             if events[0].get("T") == "success":
-                print(f"Connection Succcessfull. {data}")
+                print(Fore.GREEN + f"🟢 Connection Succcessfull. {data}")
                 self.connection = alpaca_connection
                 return
             else:
                 self.connection = None
-                print("Error: Unable to connect to alpaca news stream url.")
+                print(
+                    Fore.RED + "🔴 Error: Unable to connect to alpaca news stream url."
+                )
                 print(data)
                 return
 
         except Exception as e:
             self.connection = None
-            print("Error: Unable to connect to alpaca news stream url.")
-            print(e)
+            print(Fore.RED + "🔴 Error: Unable to connect to alpaca news stream url.")
+            print(Fore.RED + str(e))
             return
 
     async def __authenticate_alpaca(self):
         try:
             assert self.connection is not None
-            print("Authenticating Alpaca News Client...")
+            print(Fore.LIGHTWHITE_EX + "⏳ Authenticating Alpaca News Client...")
             auth_msg = {
                 "action": "auth",
                 "key": self.config.Alpaca_API_Key_ID,
@@ -76,18 +82,18 @@ class NewsClient:
                 events[0].get("T") == "success"
                 and events[0].get("msg") == "authenticated"
             ):
-                print(f"Authentication Successfull.{data}")
+                print(Fore.GREEN + f"🟢 Authentication Successfull.{data}")
                 self.is_authenticated = True
                 return
             else:
-                print(f"Unable to Authenticate. {data}")
+                print(Fore.RED + f"🔴 Unable to Authenticate. {data}")
                 await self.connection.close()
                 self.connection = None
                 self.is_authenticated = False
                 return
         except Exception as e:
-            print("Unable to Authenticate.")
-            print(e)
+            print(Fore.RED + "🔴 Unable to Authenticate.")
+            print(Fore.RED + str(e))
             assert self.connection is not None
             await self.connection.close()
             self.connection = None
@@ -98,25 +104,28 @@ class NewsClient:
         try:
             assert self.connection is not None
             assert self.is_authenticated is True
-            print("Subscribing to Alpaca News Client...")
+            print(Fore.LIGHTWHITE_EX + "⏳ Subscribing to Alpaca News Client...")
             sub_msg = {"action": "subscribe", "news": ["*"]}
             await self.connection.send(json.dumps(sub_msg))
             data = await self.connection.recv()
             events = json.loads(data)
             if events[0].get("T") == "subscription":
-                print(f"Succcessfully subscribed to the Alpaca News Stream.{data}")
+                print(
+                    Fore.GREEN
+                    + f"🟢 Succcessfully subscribed to the Alpaca News Stream.{data}"
+                )
                 self.is_subscribed = True
                 return
             else:
-                print(f"Unable to subscribe to alpaca news. {data}")
+                print(Fore.RED + f"🔴 Unable to subscribe to alpaca news. {data}")
                 assert self.connection is not None
                 await self.connection.close()
                 self.connection = None
                 self.is_authenticated = False
                 self.is_subscribed = False
         except Exception as e:
-            print("Unable to subscribe to alpaca news.")
-            print(e)
+            print(Fore.RED + "🔴 Unable to subscribe to alpaca news.")
+            print(Fore.RED + str(e))
             assert self.connection is not None
             await self.connection.close()
             self.connection = None

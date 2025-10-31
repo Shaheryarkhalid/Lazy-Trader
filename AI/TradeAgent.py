@@ -5,6 +5,7 @@ from Alpaca.MarketDataClient import MarketDataClient
 from functions.Trade import Trade
 from helpers import Singleton
 from Constants import TRADE_AI_SYSTEM_PROMPT, TRADE_AI_SYSTEM_PROMPT_REMINDER
+from colorama import Fore
 
 from AI.Context import Context
 from internals.Config import Config
@@ -36,7 +37,7 @@ class TradeAgent:
             system_instruction=TRADE_AI_SYSTEM_PROMPT, tools=[self.available_functions]
         )
 
-    def run(self, article):
+    async def trade(self, article):
         messages = [
             types.Content(
                 role="user",
@@ -54,7 +55,7 @@ class TradeAgent:
                     config=self.trade_agent_config,
                 )
                 if not resp.candidates:
-                    print("Task has been finished.")
+                    print(Fore.GREEN + "🟢 Task has been finished.")
                     return
                 candidate = resp.candidates[0]
                 part = candidate.content.parts[0]
@@ -66,7 +67,7 @@ class TradeAgent:
                 )
 
                 if not text and not function_call:
-                    print("Task has been finished.")
+                    print(Fore.GREEN + "🟢 Task has been finished.")
                     return
 
                 if text:
@@ -89,7 +90,9 @@ class TradeAgent:
                             )
                         ]
                     except Exception as e:
-                        print(f"Error while trying to call function: \n{e}")
+                        print(
+                            Fore.RED + f"🔴 Error while trying to call function: \n{e}"
+                        )
                         messages += [
                             types.Content(
                                 role="Tool",
@@ -103,26 +106,30 @@ class TradeAgent:
                         ]
 
         except Exception as e:
-            return f"Error: Trying to get response from Trade Agent Chat Client.\n{e}"
+            return (
+                f"🔴 Error: Trying to get response from Trade Agent Chat Client.\n{e}"
+            )
 
     def __initialize(self):
-        print("Initializing Trade Agent Chat Client...")
+        print(Fore.LIGHTWHITE_EX + "⏳ Initializing Trade Agent Chat Client...")
         try:
             chat_client = genai.Client(api_key=self.Config.Trade_AI_API_Key)
             models = chat_client.models.list()
             if len(models) < 1:
                 print(
-                    "Error: Unable to create genai.client. Please check your environment variables or your internet connection."
+                    Fore.RED
+                    + "🔴 Error: Unable to create genai.client. Please check your environment variables or your internet connection."
                 )
                 self.ChatClient = None
                 return
             self.ChatClient = chat_client
-            print("Trade Agent Chat Client Successfully initialized.")
+            print(Fore.GREEN + "🟢 Trade Agent Chat Client Successfully initialized.")
             return
         except Exception as e:
             self.ChatClient = None
             print(
-                "Error: Something went wrong while trying to initialize Trade Agent Chat Client. Most likely API Key or  Network Error."
+                Fore.RED
+                + "🔴 Error: Something went wrong while trying to initialize Trade Agent Chat Client. Most likely API Key or  Network Error."
             )
             print(e)
             return
@@ -183,7 +190,7 @@ class TradeAgent:
 
         make_trade = types.FunctionDeclaration(
             name="make_trade",
-            description="Will make a trade based on your given parameters. This trade will automatically be closed after 24 hours.",
+            description="Will make a trade based on your given parameters. This trade will automatically be closed after 24 hours. If make_trade function reutrns exception with base_price use that base price as asset price.",
             parameters=types.Schema(
                 type=types.Type.OBJECT,
                 properties={
@@ -201,11 +208,11 @@ class TradeAgent:
                     ),
                     "profit": types.Schema(
                         type=types.Type.INTEGER,
-                        description="At which price to stop the trade if profitable. greater than current price if buy, less than current price if sell",
+                        description="At which price to stop the trade if profitable. if side is 'BUY' then it will be greater than current price, if side is 'SELL' then it will be lower than current price of asset.",
                     ),
                     "stop_loss": types.Schema(
                         type=types.Type.INTEGER,
-                        description="At which price to stop the trade if not profitable. less than current price if buy, greater than current price if sell",
+                        description="At which price to stop the trade if not profitable. if side is 'BUY' then it will be less than current price , if side is 'SELL' then it will be greater than current price of asset. ",
                     ),
                 },
             ),
@@ -284,7 +291,8 @@ class TradeAgent:
                 ],
             )
         print(
-            f"Calling function: {function_call_part.name} Args : f{function_call_part.args}"
+            Fore.LIGHTWHITE_EX
+            + f"🛠️ Calling function: {function_call_part.name} Args : f{function_call_part.args}"
         )
         try:
             resp = functions[function_call_part.name](**function_call_part.args)

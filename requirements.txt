@@ -1,8 +1,7 @@
 ## Requirements
 python-dotenv
 google-genai
-feedparser
-beautifulsoup4
 alpaca-py
+colorama
 
 

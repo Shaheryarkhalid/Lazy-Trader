@@ -12,11 +12,11 @@ class TestTradeAgent(unittest.TestCase):
         assert self.trade_agent is not None
         assert self.trade_agent.ChatClient is not None
 
-    def test_run(self):
+    def test_trade(self):
         try:
             assert self.trade_agent is not None
             assert self.trade_agent.ChatClient is not None
-            text = self.trade_agent.run(
+            text = self.trade_agent.trade(
                 """
 
                                         Tech Startup Launches AI-Powered Study App

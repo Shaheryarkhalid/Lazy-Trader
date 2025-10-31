@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+
+from colorama import Fore
 from internals.Config import Config
 from helpers import Singleton
 
@@ -40,11 +42,11 @@ class Trade:
                 ),
             )
             db_conn.commit()
-            print("Successfully saved trade in db.")
+            print(Fore.GREEN + "🟢 Successfully saved trade in db.")
             return "Successfully saved trade in db."
 
         except Exception as e:
-            print(f"Error: Trying to save Trade in db. \n{e}")
+            print(Fore.RED + f"🔴 Error: Trying to save Trade in db. \n{e}")
             return f"Error: Trying to save Trade in db. \n{e}"
 
     def get_trades_from_db(self, symbol):
@@ -71,10 +73,13 @@ class Trade:
                 m_trade["trade_id"] = trade[7]
                 mapped_trades.append(m_trade)
             if len(mapped_trades) < 1:
-                print(f"No Trades found for '{symbol}'")
+                print(Fore.YELLOW + f"🟠 No Trades found for '{symbol}'")
                 return f"No Trades found for '{symbol}'"
-            print(f"Total Trades For '{symbol}': {len(mapped_trades)}")
+            print(
+                Fore.LIGHTWHITE_EX
+                + f"💬 Total Trades For '{symbol}': {len(mapped_trades)}"
+            )
             return mapped_trades
 
         except Exception as e:
-            return f"Error: Trying to get trades from db. \n{e}"
+            return f"🔴 Error: Trying to get trades from db. \n{e}"

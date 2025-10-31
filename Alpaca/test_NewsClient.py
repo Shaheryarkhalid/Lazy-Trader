@@ -10,8 +10,10 @@ class TestNewsClient(unittest.TestCase):
         config = Config()
         asyncio.run(self.__run_news_client(config))
 
-    async def __run_news_client(self, config):
-        news_client = NewsClient(config)
+    async def __run_news_client(
+        self,
+    ):
+        news_client = NewsClient()
         try:
             await news_client.run()
             self.assertNotEqual(news_client.connection, None)

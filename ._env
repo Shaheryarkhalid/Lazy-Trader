@@ -1,0 +1,8 @@
+Model="gemini-2.0-flash" # Works best with gemini-2.0-flash. Other models especially smaller models have some weird behaviour like some times funciton calls may not be returned and definatly have context issues context management becomes a huge bottle neck. All of these tests and the running module is tested with gemini-2.0-flash.
+Context_AI_API_Key=""
+Trade_AI_API_Key=""
+DB_Url="./trader_db.sql"
+Alpaca_Stream_Url="wss://stream.data.alpaca.markets/v1beta1/news"
+Alpaca_API_Key_ID=""
+Alpaca_API_Key_Secret=""
+

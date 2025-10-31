@@ -44,13 +44,13 @@ Functions Available to you:
                 symbol: symbol of the asset for which older bets will be returned. you will get this symbol from get_available_assets function.
 
     make_trade() 
-            will make a trade based on your given parameters. this trade will automatically be closed after 24 hours.
+            will make a trade based on your given parameters. this trade will automatically be closed after 24 hours. if make_trade function reutrns exception with base_price use that base price as asset price.
             parameters:
                     symbol: symbol of the asset for which trade will be placed.
                     qty: No of stocks to buy.
                     side: what kind of trade to place. 'BUY' or 'SELL'. 
-                    profit: at which price to stop the trade if profitable. greater than current price if buy, less than current price if sell
-                    stop_loss: at which price to stop the trade if not profitable. less than current price if buy, greater than current price if sell
+                    profit: at which price to stop the trade if profitable. if side is 'BUY' then it will be  greater than current price, and if side is 'SELL' then it will be less than current price
+                    stop_loss: at which price to stop the trade if not profitable. if side is 'BUY' then it will be  less than current price, and if side is 'SELL' then it will be greater than current price
     save_trade_locally()
             will save a local copy of trade which will be used as context later it will also include the reason behind the trade.
             parameters:
