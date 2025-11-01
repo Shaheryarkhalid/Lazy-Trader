@@ -59,3 +59,219 @@
 [97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'UAL'}
 [33m🟠 No Trades found for 'UAL'
 [31m🔴 Exception: string indices must be integers, not 'str'
+[97m⏳ Opening Database Connection...
+[32m🟢 Database Connection Opened Successsfull.
+[97m⏳Initializing AI Context Client...
+[32m🟢 Context Client Successfully initialized.
+[97m⏳ Initializing Market Data Client...
+[32m🟢 Successfully connected to Market Data Client.
+[97m⏳ Initializing Trading Client...
+[32m🟢 Successfully connected to Trading Client. AccountStatus.ACTIVE
+[97m⏳ Initializing Trade Agent Chat Client...
+[32m🟢 Trade Agent Chat Client Successfully initialized.
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[97m⏳ Waiting for news article...
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32308
+[97m🛠️ Calling function: get_asset_history_week Args : f{'symbol': 'TPR'}
+[97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'TPR'}
+[33m🟠 No Trades found for 'TPR'
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'TPR'}
+[97m⏳ Getting Price for 'TPR'
+[32m🟢 Price for 'TPR': 55.68
+[97m🛠️ Calling function: make_trade Args : f{'qty': 10, 'symbol': 'TPR', 'stop_loss': 110, 'side': 'BUY', 'profit': 118}
+[32m🟢 Successfully Placed Trade For 'TPR' Of Quantity 10, Position OrderSide.BUY, Profit Limit 118, Stop Loss 110
+[97m🛠️ Calling function: save_trade_locally Args : f{'profit_limit': 118, 'position': 'BUY', 'symbol': 'TPR', 'reason': 'Telsey Advisory Group Maintains Outperform on Tapestry, Maintains $125 Price Target. Analyst Dana Telsey maintains Tapestry with an Outperform rating and a $125 price target, suggesting positive future performance.', 'stop_loss': 110, 'price': 115, 'trade_id': '5bfbbe0b-aaa5-420c-90c3-a5e55136056e'}
+[32m🟢 Successfully saved trade in db.
+[32m🟢 Task has been finished.
+[31m🔴 Something went wrong: 
+ Error: no close frame received or sent
+[37mRestarting News Client...
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[97m⏳ Waiting for news article...
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32308
+[97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'GOOG'}
+[97m💬 Total Trades For 'GOOG': 1
+[97m💬 Total Active Trades for 'GOOG': 1
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'GOOG'}
+[97m⏳ Getting Price for 'GOOG'
+[32m🟢 Price for 'GOOG': 140.835
+[97m🛠️ Calling function: make_trade Args : f{'qty': 10, 'side': 'BUY', 'symbol': 'GOOG', 'profit': 145, 'stop_loss': 138}
+[97m🛠️ Calling function: save_trade_locally Args : f{'position': 'BUY', 'symbol': 'GOOG', 'trade_id': 'N/A', 'profit_limit': 290, 'reason': 'Based on the news article and the get_context. Retail investors are particularly interested in Amazon and Google. Both companies have recently reported strong earnings and are making significant investments in AI infrastructure, a sector with high growth potential. Additionally, the article mentions investors discussing buying more call options for GOOG.Given this information, I will place a BUY order for Google (GOOG).', 'stop_loss': 280, 'price': 285}
+[32m🟢 Successfully saved trade in db.
+[97m⏳ Waiting for news article...
+[97m⏳ Waiting for news article...
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32308
+[97m🛠️ Calling function: get_asset_history_week Args : f{'symbol': 'AAPL'}
+[97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'AAPL'}
+[33m🟠 No Trades found for 'AAPL'
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'profit': 275, 'qty': 5, 'symbol': 'AAPL', 'stop_loss': 270}
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'profit': 280, 'symbol': 'AAPL', 'stop_loss': 270, 'qty': 5}
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'qty': 5, 'stop_loss': 270, 'symbol': 'AAPL', 'profit': 275}
+[97m🛠️ Calling function: make_trade Args : f{'symbol': 'AAPL', 'profit': 280, 'side': 'BUY', 'qty': 5, 'stop_loss': 270}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'profit': 275, 'qty': 5, 'stop_loss': 270, 'symbol': 'AAPL'}
+[97m🛠️ Calling function: make_trade Args : f{'symbol': 'AAPL', 'stop_loss': 270, 'profit': 278, 'side': 'BUY', 'qty': 5}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: make_trade Args : f{'symbol': 'AAPL', 'side': 'BUY', 'stop_loss': 270, 'qty': 5, 'profit': 273}
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'qty': 5, 'symbol': 'AAPL', 'stop_loss': 270, 'profit': 280}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: make_trade Args : f{'side': 'BUY', 'symbol': 'AAPL', 'profit': 275, 'stop_loss': 270, 'qty': 5}
+[97m🛠️ Calling function: make_trade Args : f{'stop_loss': 270, 'profit': 278, 'symbol': 'AAPL', 'side': 'BUY', 'qty': 5}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: make_trade Args : f{'symbol': 'AAPL', 'stop_loss': 270, 'qty': 5, 'profit': 273, 'side': 'BUY'}
+[97m🛠️ Calling function: make_trade Args : f{'profit': 278, 'side': 'BUY', 'qty': 5, 'stop_loss': 270, 'symbol': 'AAPL'}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'AAPL'}
+[97m⏳ Getting Price for 'AAPL'
+[32m🟢 Price for 'AAPL': 271.96000000000004
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32308
+[97m🛠️ Calling function: get_asset_history_week Args : f{'symbol': 'COOK'}
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'COOK'}
+[97m⏳ Getting Price for 'COOK'
+[32m🟢 Price for 'COOK': 1.0
+[97m🛠️ Calling function: make_trade Args : f{'qty': 100, 'side': 'SELL', 'stop_loss': 1, 'profit': 0, 'symbol': 'COOK'}
+[97m🛠️ Calling function: make_trade Args : f{'stop_loss': 1.1, 'profit': 0.9, 'side': 'SELL', 'qty': 100, 'symbol': 'COOK'}
+[97m⏳ Opening Database Connection...
+[32m🟢 Database Connection Opened Successsfull.
+[97m⏳Initializing AI Context Client...
+[32m🟢 Context Client Successfully initialized.
+[97m⏳ Initializing Market Data Client...
+[32m🟢 Successfully connected to Market Data Client.
+[97m⏳ Initializing Trading Client...
+[32m🟢 Successfully connected to Trading Client. AccountStatus.ACTIVE
+[97m⏳ Initializing Trade Agent Chat Client...
+[32m🟢 Trade Agent Chat Client Successfully initialized.
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[97m⏳ Waiting for news article...
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32312
+[97m🛠️ Calling function: get_asset_history_week Args : f{'symbol': 'NVDA'}
+[97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'NVDA'}
+[33m🟠 No Trades found for 'NVDA'
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'NVDA'}
+[97m⏳ Getting Price for 'NVDA'
+[32m🟢 Price for 'NVDA': 202.41000000000003
+[97m🛠️ Calling function: make_trade Args : f{'stop_loss': 205, 'profit': 200, 'symbol': 'NVDA', 'side': 'SELL', 'qty': 10}
+[97m🛠️ Calling function: make_trade Args : f{'stop_loss': 205, 'qty': 10, 'profit': 200, 'symbol': 'NVDA', 'side': 'SELL'}
+[97m🛠️ Calling function: make_trade Args : f{'side': 'SELL', 'stop_loss': 205, 'qty': 10, 'symbol': 'NVDA', 'profit': 200}
+[97m⏳ Opening Database Connection...
+[32m🟢 Database Connection Opened Successsfull.
+[97m⏳Initializing AI Context Client...
+[32m🟢 Context Client Successfully initialized.
+[97m⏳ Initializing Market Data Client...
+[32m🟢 Successfully connected to Market Data Client.
+[97m⏳ Initializing Trading Client...
+[32m🟢 Successfully connected to Trading Client. AccountStatus.ACTIVE
+[97m⏳ Initializing Trade Agent Chat Client...
+[32m🟢 Trade Agent Chat Client Successfully initialized.
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[97m⏳ Waiting for news article...
+[97m🛠️ Calling function: get_context Args : f{}
+[97m🛠️ Calling function: get_available_assets Args : f{}
+[97m💬 Total Available Assets: 32312
+[97m🛠️ Calling function: get_asset_history_week Args : f{'symbol': 'MSFT'}
+[97m🛠️ Calling function: get_older_bets Args : f{'symbol': 'MSFT'}
+[33m🟠 No Trades found for 'MSFT'
+[97m🛠️ Calling function: get_asset_price Args : f{'symbol': 'MSFT'}
+[97m⏳ Getting Price for 'MSFT'
+[32m🟢 Price for 'MSFT': 245.895
+[97m🛠️ Calling function: make_trade Args : f{'profit': 530, 'stop_loss': 510, 'side': 'BUY', 'qty': 10, 'symbol': 'MSFT'}
+[32m🟢 Successfully Placed Trade For 'MSFT' Of Quantity 10, Position OrderSide.BUY, Profit Limit 530, Stop Loss 510
+[97m🛠️ Calling function: save_trade_locally Args : f{'price': 520, 'reason': "Microsoft's early investment in OpenAI is expected to drive its growth in the AI sector. This justifies a buy position with a profit target of $530 and a stop-loss at $510 to manage potential downside risks.", 'stop_loss': 510, 'position': 'BUY', 'trade_id': '25dfa088-cdfe-40cb-afea-35b268a5f6f6', 'profit_limit': 530, 'symbol': 'MSFT'}
+[32m🟢 Successfully saved trade in db.
+[32m🟢 Task has been finished.
+[31m🔴 Something went wrong: 
+ Error: no close frame received or sent
+[37mRestarting News Client...
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[31m🔴 Something went wrong: 
+ Error: sent 1011 (internal error) keepalive ping timeout; no close frame received
+[37mRestarting News Client...
+[97m⏳ Connecting to Alpaca News Stream...
+[31m🔴 Error: Unable to connect to alpaca news stream url.
+[31m[Errno -3] Temporary failure in name resolution
+[31m🔴 Unable to Authenticate.
+[31m
+[97m⏳ Opening Database Connection...
+[32m🟢 Database Connection Opened Successsfull.
+[97m⏳Initializing AI Context Client...
+[32m🟢 Context Client Successfully initialized.
+[97m⏳ Initializing Market Data Client...
+[32m🟢 Successfully connected to Market Data Client.
+[97m⏳ Initializing Trading Client...
+[32m🟢 Successfully connected to Trading Client. AccountStatus.ACTIVE
+[97m⏳ Initializing Trade Agent Chat Client...
+[32m🟢 Trade Agent Chat Client Successfully initialized.
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
+[97m⏳ Opening Database Connection...
+[32m🟢 Database Connection Opened Successsfull.
+[97m⏳Initializing AI Context Client...
+[32m🟢 Context Client Successfully initialized.
+[97m⏳ Initializing Market Data Client...
+[32m🟢 Successfully connected to Market Data Client.
+[97m⏳ Initializing Trading Client...
+[32m🟢 Successfully connected to Trading Client. AccountStatus.ACTIVE
+[97m⏳ Initializing Trade Agent Chat Client...
+[32m🟢 Trade Agent Chat Client Successfully initialized.
+[97m⏳ Connecting to Alpaca News Stream...
+[32m🟢 Connection Succcessfull. [{"T":"success","msg":"connected"}]
+[97m⏳ Authenticating Alpaca News Client...
+[32m🟢 Authentication Successfull.[{"T":"success","msg":"authenticated"}]
+[97m⏳ Subscribing to Alpaca News Client...
+[32m🟢 Succcessfully subscribed to the Alpaca News Stream.[{"T":"subscription","news":["*"]}]
+[97m⏳ Waiting for news article...
