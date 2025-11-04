@@ -52,18 +52,21 @@ TradeAI/
 
 Make sure you’re using **Python 3.10+**
 
----
+```
 git clone https://github.com/Shaheryarkhalid/Lazy-Trader/
 cd Lazy-Trader
-
+```
 # Create virtual environment  
+```
 python -m venv venv  
 source venv/bin/activate      # macOS/Linux  
 venv\Scripts\activate         # Windows  
+```
 
 # Install dependencies  
+```
 pip install -r requirements.txt  
----
+```
 
 If you don’t yet have a `requirements.txt`, use:
 
