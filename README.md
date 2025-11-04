@@ -112,7 +112,7 @@ Alpaca_API_Key_Secret="YOUR_ALPACA_SECRET_KEY"
 ./run.sh
 ```
 
-Expected console output(Have a look at output.log for the logs of the sessions run by me.):
+Expected console output (Have a look at output.log for the logs of the sessions run by me.):
 
 ```
 ⏳ Opening Database Connection...  
