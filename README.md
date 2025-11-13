@@ -4,7 +4,6 @@
 It leverages **Google’s Gemini 2.0 Flash** model to analyze articles, predict market sentiment, and automatically make trades using Alpaca’s brokerage API.
 
 ---
-<img width="1038" height="571" alt="Image" src="https://github.com/user-attachments/assets/59cf2ba7-145a-4fb5-b5ae-fcc786b46826" />
 ## 🚀 Features
 
 - 📡 **Live News Stream Integration** — subscribes to all U.S. market news in real time  
@@ -15,7 +14,10 @@ It leverages **Google’s Gemini 2.0 Flash** model to analyze articles, predict 
 - 🧩 **Extensible Modular Architecture** — easy to add new data sources or replace AI models  
 
 ---
-
+---
+## Result
+<img width="1038" height="571" alt="Image" src="https://github.com/user-attachments/assets/59cf2ba7-145a-4fb5-b5ae-fcc786b46826" />
+---
 ## 🏗️ Project Structure
 
 ```
