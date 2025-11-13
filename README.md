@@ -199,4 +199,4 @@ Once a news article is received, the agent will:
 
 ## 📄 License
 
-MIT License © 2025 Your Name
+MIT License © 2025 Shaheryarkhalid
