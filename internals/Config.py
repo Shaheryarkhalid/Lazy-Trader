@@ -1,40 +1,50 @@
 import os
 import sqlite3
-from colorama import Fore
+from colorama import Fore, init
 from dotenv import load_dotenv
 from helpers import Singleton
+
+init(autoreset=True)
 
 
 @Singleton
 class Config:
     def __init__(self) -> None:
-        self.DB_Url = None
-        self.DB_Connection = None
-        self.Context_AI_API_Key = None
-        self.Trade_AI_API_Key = None
-        self.Alpaca_Stream_Url = None
-        self.Alpaca_API_Key_ID = None
-        self.Alpaca_API_Key_Secret = None
-        self.__get_config()
-        self.validate_config()
-        self.__get_db_connection()
+        try:
+            self.DB_Url = None
+            self.DB_Connection = None
+            self.Context_AI_API_Key = None
+            self.Trade_AI_API_Key = None
+            self.Alpaca_Stream_Url = None
+            self.Alpaca_API_Key_ID = None
+            self.Alpaca_API_Key_Secret = None
+            self.__get_config()
+            self.validate_config()
+            self.__get_db_connection()
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     def validate_config(self):
-        assert self.DB_Url is not None
-        assert self.DB_Url != ""
+        try:
+            assert self.DB_Url is not None
+            assert self.DB_Url != ""
 
-        assert self.Context_AI_API_Key is not None
-        assert self.Context_AI_API_Key != ""
+            assert self.Context_AI_API_Key is not None
+            assert self.Context_AI_API_Key != ""
 
-        assert self.Trade_AI_API_Key is not None
-        assert self.Trade_AI_API_Key != ""
+            assert self.Trade_AI_API_Key is not None
+            assert self.Trade_AI_API_Key != ""
 
-        assert self.Alpaca_API_Key_ID is not None
-        assert self.Alpaca_API_Key_ID != ""
-        assert self.Alpaca_API_Key_Secret is not None
-        assert self.Alpaca_API_Key_Secret != ""
-        assert self.Alpaca_Stream_Url is not None
-        assert self.Alpaca_Stream_Url != ""
+            assert self.Alpaca_API_Key_ID is not None
+            assert self.Alpaca_API_Key_ID != ""
+            assert self.Alpaca_API_Key_Secret is not None
+            assert self.Alpaca_API_Key_Secret != ""
+            assert self.Alpaca_Stream_Url is not None
+            assert self.Alpaca_Stream_Url != ""
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     def __del__(self):
         self.__clean_up()
@@ -43,11 +53,12 @@ class Config:
         self.__clean_up()
 
     def __clean_up(self):
-        print(fore.LIGHTWHITE_EX + "⏳ Closing Database Connection...")
+        print(Fore.LIGHTWHITE_EX + "⏳ Closing Database Connection...")
         if self.DB_Connection is not None:
             self.DB_Connection.close()
             self.DB_Connection = None
         print(Fore.GREEN + "🟢 Database Connection Closed Successsfully.")
+        print(Fore.WHITE)
 
     def __get_config(self):
         load_dotenv()
@@ -61,9 +72,13 @@ class Config:
         self.Alpaca_Stream_Url = os.getenv("Alpaca_Stream_Url")
 
     def __get_db_connection(self):
-        print(Fore.LIGHTWHITE_EX + "⏳ Opening Database Connection...")
-        assert self.DB_Url is not None
-        con = sqlite3.connect(self.DB_Url)
-        assert con is not None
-        self.DB_Connection = con
-        print(Fore.GREEN + "🟢 Database Connection Opened Successsfull.")
+        try:
+            print(Fore.LIGHTWHITE_EX + "⏳ Opening Database Connection...")
+            assert self.DB_Url is not None
+            con = sqlite3.connect(self.DB_Url)
+            assert con is not None
+            self.DB_Connection = con
+            print(Fore.GREEN + "🟢 Database Connection Opened Successsfull.")
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)

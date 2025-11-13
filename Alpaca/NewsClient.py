@@ -1,26 +1,34 @@
-from colorama import Fore
-from google.genai.types import FinishReason
+from colorama import Fore, init
 import websockets
 import json
 
 from helpers import Singleton
 from internals.Config import Config
 
+init(autoreset=True)
+
 
 @Singleton
 class NewsClient:
     def __init__(self) -> None:
-        self.config = Config()
-        self.connection = None
-        self.is_authenticated = False
-        self.is_subscribed = False
-        self.config.validate_config()
+        try:
+            self.config = Config()
+            self.connection = None
+            self.is_authenticated = False
+            self.is_subscribed = False
+            self.config.validate_config()
+        except Exception as e:
+            print(Fore.RED + f"{e}")
 
     async def run(self):
-        await self.__connect_alpaca()
-        await self.__authenticate_alpaca()
-        await self.__subscribe_alpaca_news()
-        self.__validate_instance()
+        try:
+            await self.__connect_alpaca()
+            await self.__authenticate_alpaca()
+            await self.__subscribe_alpaca_news()
+            self.__validate_instance()
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     async def __exit__(self):
         await self.close()

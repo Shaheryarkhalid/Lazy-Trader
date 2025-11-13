@@ -4,25 +4,32 @@ from alpaca.trading.requests import (
     GetAssetsRequest,
     MarketOrderRequest,
 )
-from colorama import Fore
+from colorama import Fore, init
 
 from functions.Trade import Trade
 from helpers import Singleton
 from internals.Config import Config
+
+init(autoreset=True)
 
 
 @Singleton
 class TradeClient:
 
     def __init__(self) -> None:
-        self.config = Config()
-        self.config.validate_config()
+        try:
+            self.config = Config()
+            self.config.validate_config()
 
-        self.client = None
-        self.__initialize()
-        assert self.client is not None
+            self.client = None
+            self.__initialize()
+            assert self.client is not None
 
-        self.trade_db_client = Trade()
+            self.trade_db_client = Trade()
+
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     def make_trade(self, symbol, qty, side, profit, stop_loss):
         try:
@@ -53,7 +60,7 @@ class TradeClient:
             )
             return order
         except Exception as e:
-            # print(e)
+            print(f"🔴 Error: Trying to make a trade.\n{e}")
             return f"🔴 Error: Trying to make a trade.\n{e}"
 
     def get_all_assets(self):

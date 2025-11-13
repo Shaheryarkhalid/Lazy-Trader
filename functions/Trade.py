@@ -1,16 +1,23 @@
 from datetime import datetime, timezone
 
-from colorama import Fore
+from colorama import Fore, init
 from internals.Config import Config
 from helpers import Singleton
+
+
+init(autoreset=True)
 
 
 @Singleton
 class Trade:
     def __init__(self) -> None:
-        self.config = Config()
-        self.config.validate_config()
-        assert self.config is not None
+        try:
+            self.config = Config()
+            self.config.validate_config()
+            assert self.config is not None
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     def save_trade_locally(
         self,

@@ -2,18 +2,24 @@ from google import genai
 from Constants import CONTEXT_AI_SYSTEM_PROMPT
 from helpers import Singleton
 from internals.Config import Config
-from colorama import Fore
+from colorama import Fore, init
+
+init(autoreset=True)
 
 
 @Singleton
 class Context:
 
     def __init__(self) -> None:
-        self.config = Config()
-        self.config.validate_config()
-        self.ChatClient = None
-        self.__initialize_chat_client()
-        assert self.ChatClient is not None
+        try:
+            self.config = Config()
+            self.config.validate_config()
+            self.ChatClient = None
+            self.__initialize_chat_client()
+            assert self.ChatClient is not None
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     def get_context(self):
         try:

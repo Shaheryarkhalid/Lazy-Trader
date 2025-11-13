@@ -1,3 +1,5 @@
+import json
+from typing import ForwardRef
 from google import genai
 from google.genai import types
 from Alpaca.TradeClient import TradeClient
@@ -5,49 +7,56 @@ from Alpaca.MarketDataClient import MarketDataClient
 from functions.Trade import Trade
 from helpers import Singleton
 from Constants import TRADE_AI_SYSTEM_PROMPT, TRADE_AI_SYSTEM_PROMPT_REMINDER
-from colorama import Fore
+from colorama import Fore, init
 
 from AI.Context import Context
 from internals.Config import Config
+
+init(autoreset=True)
 
 
 @Singleton
 class TradeAgent:
 
     def __init__(self) -> None:
-        self.Config = Config()
-        self.Config.validate_config()
-        assert self.Config is not None
+        try:
+            self.Config = Config()
+            self.Config.validate_config()
+            assert self.Config is not None
 
-        self.Context = Context()
-        self.TradeClient = TradeClient()
-        self.MarketDataClient = MarketDataClient()
-        self.TradeDBClient = Trade()
+            self.Context = Context()
+            self.TradeClient = TradeClient()
+            self.MarketDataClient = MarketDataClient()
+            self.TradeDBClient = Trade()
 
-        self.ChatClient = None
-        self.__initialize()
-        assert self.ChatClient is not None
+            self.ChatClient = None
+            self.__initialize()
+            assert self.ChatClient is not None
 
-        self.available_functions = self.__get_available_functions()
-        assert isinstance(self.available_functions, types.Tool)
-        assert self.available_functions.function_declarations is not None
-        assert len(self.available_functions.function_declarations) > 0
+            self.available_functions = self.__get_available_functions()
+            assert isinstance(self.available_functions, types.Tool)
+            assert self.available_functions.function_declarations is not None
+            assert len(self.available_functions.function_declarations) > 0
 
-        self.trade_agent_config = types.GenerateContentConfig(
-            system_instruction=TRADE_AI_SYSTEM_PROMPT, tools=[self.available_functions]
-        )
+            self.trade_agent_config = types.GenerateContentConfig(
+                system_instruction=TRADE_AI_SYSTEM_PROMPT,
+                tools=[self.available_functions],
+            )
+        except Exception as e:
+            print(Fore.RED + f"{e}")
+            exit(1)
 
     async def trade(self, article):
+        news_data = json.loads(article)
+        print(Fore.WHITE + f"💬 Article: {news_data[0]['headline']}")
         messages = [
             types.Content(
                 role="user",
-                parts=[types.Part.from_text(text=article)],
+                parts=[types.Part.from_text(text=str(article))],
             )
         ]
         assert self.ChatClient is not None
         try:
-            if len(messages) >= 5:
-                messages = [messages[0], messages[-2], messages[-1]]
             while True:
                 resp = self.ChatClient.models.generate_content(
                     model="gemini-2.0-flash",
@@ -190,7 +199,7 @@ class TradeAgent:
 
         make_trade = types.FunctionDeclaration(
             name="make_trade",
-            description="Will make a trade based on your given parameters. This trade will automatically be closed after 24 hours. If make_trade function reutrns exception with base_price use that base price as asset price.",
+            description="Will make a trade based on your given parameters. This trade will automatically be closed after 24 hours. If make_trade function reutrns error with base_price use that base price as asset price and adjust profit and stop_loss accordingly.",
             parameters=types.Schema(
                 type=types.Type.OBJECT,
                 properties={
