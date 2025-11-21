@@ -1,7 +1,11 @@
 # Lazy-Trader — Autonomous AI-Driven News-Based Trading Agent
 
-   TradeAI is an **autonomous trading system** that listens to **Live News Stream** and executes trades based on real-time financial news and market context.  
-It leverages **Google’s Gemini 2.0 Flash** model to analyze articles, predict market sentiment, and automatically make trades using Alpaca’s brokerage API.
+TradeAI is basically an autonomous trading assistant that keeps an ear on a live news feed and makes trading decisions the moment something important breaks.
+It uses Google’s Gemini 2.0 Flash model to read the news, figure out the market mood, and decide what move to make. Once it has an idea, it automatically places trades through Alpaca’s brokerage API—no manual input needed.
+---
+## 🕸️ FlowChart
+
+<img width="982" height="785" alt="Image" src="https://github.com/user-attachments/assets/437599bf-4058-4b24-80e9-86905d35caf0" />
 
 ---
 ## 🚀 Features
