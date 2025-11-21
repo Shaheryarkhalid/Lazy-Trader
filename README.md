@@ -50,7 +50,7 @@ TradeAI/
 ├── ._env                            # Template environment variables file (rename to `.env`)  
 ```
 
-## ⚙️ Setup Instructions
+## ⚙️ Quick Start
 
 ### 1. 🐍 Install Python and Dependencies
 
@@ -110,7 +110,7 @@ Alpaca_API_Key_Secret="YOUR_ALPACA_SECRET_KEY"
 
 ---
 
-### 3. ▶️ Running the Agent
+### 3. ▶️ Usage
 
 ```
 ./run.sh
