@@ -202,7 +202,7 @@ Once a news article is received, the agent will:
 > **This project is for research and educational purposes only.**  
 > Do **not** use it for real-money trading without extensive testing, risk controls, and regulatory compliance.  
 > The author assumes no liability for financial loss.
-
+> Contributing is appreciated.
 ---
 
 ## 📄 License
