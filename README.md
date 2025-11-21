@@ -6,7 +6,8 @@ It uses Google’s Gemini 2.0 Flash model to read the news, figure out the marke
 ---
 ## 🕸️ FlowChart
 
-<img width="982" height="785" alt="Image" src="https://github.com/user-attachments/assets/437599bf-4058-4b24-80e9-86905d35caf0" />
+<img width="1531" height="803" alt="Image" src="https://github.com/user-attachments/assets/d644cd8b-bec5-4d10-b995-4d681087df20" />
+<img width="1531" height="803" alt="Image" src="https://github.com/user-attachments/assets/df92e044-3686-4d0f-ab97-026f5cadc8cc" />
 
 ---
 ## 🚀 Features
