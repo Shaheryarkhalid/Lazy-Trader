@@ -4,23 +4,23 @@ Lazy-Trader is basically an autonomous trading assistant that keeps an ear on a 
 It uses Google’s Gemini 2.0 Flash model to read the news, figure out the market mood, and decide what move to make. Once it has an idea, it automatically places trades through Alpaca’s brokerage API—no manual input needed.
 
 ---
-## 🕸️ FlowChart
+##  FlowChart
 
 <img width="1527" height="715" alt="Image" src="https://github.com/user-attachments/assets/357d6534-cd02-42d8-b406-12ee9ffa2e48" />
 <img width="1528" height="702" alt="Image" src="https://github.com/user-attachments/assets/0189bdc1-b6d1-44d2-87cb-ca0696970af7" />
 
 ---
-## 🚀 Features
+##  Features
 
-- 📡 **Live News Stream Integration** — subscribes to all U.S. market news in real time  
-- 🧠 **AI-Driven Trade Decisions** — powered by `gemini-2.0-flash`, which analyzes each news article and predicts short-term (24 h) market movement  
-- 💼 **Automatic Trading via Alpaca API** — executes buy/sell orders with profit and stop-loss targets  
-- 💾 **Persistent Trade Logging** — saves trade data, decisions, and reasoning locally  
-- 🔄 **Resilient Reconnection Logic** — automatically reconnects to Alpaca stream in case of timeouts or drops  
-- 🧩 **Extensible Modular Architecture** — easy to add new data sources or replace AI models  
+-  **Live News Stream Integration** — subscribes to all U.S. market news in real time  
+-  **AI-Driven Trade Decisions** — powered by `gemini-2.0-flash`, which analyzes each news article and predicts short-term (24 h) market movement  
+-  **Automatic Trading via Alpaca API** — executes buy/sell orders with profit and stop-loss targets  
+-  **Persistent Trade Logging** — saves trade data, decisions, and reasoning locally  
+-  **Resilient Reconnection Logic** — automatically reconnects to Alpaca stream in case of timeouts or drops  
+-  **Extensible Modular Architecture** — easy to add new data sources or replace AI models  
 
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 TradeAI/  
@@ -50,9 +50,9 @@ TradeAI/
 ├── ._env                            # Template environment variables file (rename to `.env`)  
 ```
 
-## ⚙️ Quick Start
+##  Quick Start
 
-### 1. 🐍 Install Python and Dependencies
+### 1.  Install Python and Dependencies
 
 Make sure you’re using **Python 3.10+**
 
@@ -81,7 +81,7 @@ alpaca-py
 colorama  
 ```
 
-### 2. 🧾 Configure Environment Variables
+### 2.  Configure Environment Variables
 
 Copy the template file and rename it:
 
@@ -110,7 +110,7 @@ Alpaca_API_Key_Secret="YOUR_ALPACA_SECRET_KEY"
 
 ---
 
-### 3. ▶️ Usage
+### 3.  Usage
 
 ```
 ./run.sh
@@ -154,7 +154,7 @@ Once a news article is received, the agent will:
 
 ```
 
-## 🧠 Workflow Overview
+##  Workflow Overview
 
 1. Connects to **Alpaca News Stream** (WebSocket)  
 2. On each article:  
@@ -172,7 +172,7 @@ Once a news article is received, the agent will:
 
 ```
 
-## 🔍 Troubleshooting
+##  Troubleshooting
 
 | Issue | Cause | Solution |  
 |-------|--------|-----------|  
@@ -182,7 +182,7 @@ Once a news article is received, the agent will:
 
 ```
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 - **Language:** Python 3.10+  
 - **AI Model:** Gemini 2.0 Flash (Google GenAI)  
@@ -193,7 +193,7 @@ Once a news article is received, the agent will:
 ---
 
 ---
-## 🏆 My Results
+##  My Results
 <img width="1038" height="571" alt="Image" src="https://github.com/user-attachments/assets/59cf2ba7-145a-4fb5-b5ae-fcc786b46826" />
 
 
@@ -205,6 +205,6 @@ Once a news article is received, the agent will:
 > Contributing or Motivation to expand project usage will be appreciated. 
 ---
 
-## 📄 License
+##  License
 
 MIT License © 2025 Shaheryarkhalid
