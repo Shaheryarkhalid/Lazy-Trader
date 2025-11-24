@@ -1,7 +1,7 @@
 # Lazy-Trader
 
 Lazy-Trader is basically an autonomous trading assistant that keeps an ear on a live news feed and makes trading decisions the moment something important breaks.
-It uses Google’s Gemini 2.0 Flash model to read the news, figure out the market mood, and decide what move to make. Once it has an idea, it automatically places trades through Alpaca’s brokerage API—no manual input needed.
+It uses Google’s Gemini 2.0 Flash model to read the news, figure out the market mood, and decide what move to make. Once it has an idea, it automatically places trades through Alpaca’s brokerage API.
 
 ---
 ##  FlowChart
